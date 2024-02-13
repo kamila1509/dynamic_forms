@@ -8,22 +8,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDrag } from 'react-dnd';
 import TextFieldInput from './TextField';
-
-const DraggableTextField = ({ text }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: 'ITEM',
-    item: { text },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
-  return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <TextField label={text} variant="outlined" fullWidth />
-    </div>
-  );
-};
+import SelecrFieldInput from './Select';
 
 const DraggableAccordion = ({ title, children }) => {
   return (
@@ -31,7 +16,7 @@ const DraggableAccordion = ({ title, children }) => {
       <AccordionSummary expandIcon={<ArrowDownwardIcon />} aria-controls="panel1-content" id="panel1-header">
         <Typography>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails>
+    <AccordionDetails style={{display:'flex', flexDirection:'column', gap:'10px'}}>
         {children}
       </AccordionDetails>
     </Accordion>
@@ -42,10 +27,8 @@ export default function AccordionExpandIcon() {
   return (
     <div>
       <DraggableAccordion title="Elements">
-    <TextFieldInput label={'TextField'} defaultValue={''} type={'TEXT_FIELD'}></TextFieldInput>
-      </DraggableAccordion>
-      <DraggableAccordion title="Accordion 2">
-        <DraggableTextField text="Texto 2" />
+        <TextFieldInput label={'TextField'} defaultValue={''} ></TextFieldInput>
+        <SelecrFieldInput label={'Select'} defaultValue={1} options={[{label: 'label1', value:'1'}]}></SelecrFieldInput>
       </DraggableAccordion>
     </div>
   );

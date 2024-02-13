@@ -5,10 +5,10 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-const DraggableSelect = ({ label, options, defaultValue, type }) => {
+const DraggableSelect = ({ label, options, defaultValue }) => {
   const [{ isDragging }, drag] = useDrag({
-    type,
-    item: { label, options, defaultValue, type },
+    type: 'SELECT',
+    item: { label, options, defaultValue, type: 'SELECT' },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -30,4 +30,6 @@ const DraggableSelect = ({ label, options, defaultValue, type }) => {
   );
 };
 
-export default DraggableSelect;
+
+const SelecrFieldInput = (props) => <DraggableSelect {...props} />;
+export default SelecrFieldInput;

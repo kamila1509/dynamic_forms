@@ -5,12 +5,12 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useDrag } from 'react-dnd';
-import TextFieldInput from './TextField';
-import SelecrFieldInput from './Select';
-import DateFieldInput from './DateField';
-import RadioFieldInput from './RadioField';
-import NumberFieldInput from './NumberField';
-import TextAreaField from './TextArea';
+import TextFieldInput from './formFields/TextField';
+import SelecrFieldInput from './formFields/Select';
+import DateFieldInput from './formFields/DateField';
+import RadioFieldInput from './formFields/RadioField';
+import NumberFieldInput from './formFields/NumberField';
+import TextAreaField from './formFields/TextArea';
 
 const DraggableAccordionItem = ({ type, label, defaultValue, options}) => {
   const [{ isDragging }, drag] = useDrag({

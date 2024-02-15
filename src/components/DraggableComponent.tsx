@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { useDrag } from 'react-dnd';
-import TextFieldInput from './TextField';
-import SelecrFieldInput from './Select';
-import DateFieldInput from './DateField';
-import RadioFieldInput from './RadioField';
-import NumberFieldInput from './NumberField';
-import TextAreaField from './TextArea';
+import TextFieldInput from './formFields/TextField';
+import SelecrFieldInput from './formFields/Select';
+import DateFieldInput from './formFields/DateField';
+import RadioFieldInput from './formFields/RadioField';
+import NumberFieldInput from './formFields/NumberField';
+import TextAreaField from './formFields/TextArea';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
-    console.log(props)
     const [isClicked, setIsClicked] = useState(false);
   const [{ isDragging }, drag] = useDrag({
     type,

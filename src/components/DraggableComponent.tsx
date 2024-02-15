@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import TextFieldInput from './TextField';
 import SelecrFieldInput from './Select';
+import DateFieldInput from './DateField';
+import RadioFieldInput from './RadioField';
+import NumberFieldInput from './NumberField';
+import TextAreaField from './TextArea';
 
 const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
   const [{ isDragging }, drag] = useDrag({
@@ -17,15 +18,19 @@ const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
 
   const componentMap = {
     'TEXT_FIELD': TextFieldInput,
-    'SELECT': SelecrFieldInput
+    'SELECT': SelecrFieldInput,
+    'DATE_FIELD': DateFieldInput,
+    'RADIO_FIELD': RadioFieldInput,
+    'NUMBER_FIELD': NumberFieldInput,
+    'TEXT_AREA_FIELD': TextAreaField
     // Agrega más tipos y componentes según sea necesario
   };
 
   const SelectedComponent = componentMap[type] || null;
 
   return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', marginBottom: 10 }}>
-      {SelectedComponent && <SelectedComponent {...props} label={label} defaultValue={defaultValue} />}
+    <div>
+        {SelectedComponent && <SelectedComponent {...props} label={label} defaultValue={defaultValue} />}
     </div>
   );
 };

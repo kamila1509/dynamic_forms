@@ -6,16 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
 const DraggableSelect = ({ label, options, defaultValue }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: 'SELECT',
-    item: { label, options, defaultValue, type: 'SELECT' },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
   return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', marginBottom: 10 }}>
       <FormControl fullWidth variant="outlined">
         <InputLabel>{label}</InputLabel>
         <Select defaultValue={defaultValue} label={label}>
@@ -26,7 +17,6 @@ const DraggableSelect = ({ label, options, defaultValue }) => {
           ))}
         </Select>
       </FormControl>
-    </div>
   );
 };
 

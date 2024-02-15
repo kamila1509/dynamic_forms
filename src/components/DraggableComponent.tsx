@@ -30,12 +30,8 @@ const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
   };
 
   const SelectedComponent = componentMap[type] || null;
-  const handleContainerClick = () => {
-    setIsClicked(!isClicked);
-  };
-
   return (
-    <div style={{ position: 'relative',padding: '10px',border: isClicked ? '2px solid red' : 'none' }}>
+    <div style={{ position: 'relative',padding: '10px'}}>
     {SelectedComponent && <SelectedComponent {...props} label={label} defaultValue={defaultValue} ref={drag} />}
   </div>
   );

@@ -7,15 +7,7 @@ import Radio from '@mui/material/Radio';
 import { useDrag } from 'react-dnd';
 
 const RadioFieldInputDraggable = ({ label, options, defaultValue  }) => {
-    const [{ isDragging }, drag] = useDrag({
-        type: 'RADIO_FIELD',
-        item: { label, options ,defaultValue , type:'RADIO_FIELD'},
-        collect: (monitor) => ({
-          isDragging: !!monitor.isDragging(),
-        }),
-      });
   return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move' }}>
       <FormControl component="fieldset">
       <FormLabel component="legend">{label}</FormLabel>
       <RadioGroup defaultValue={defaultValue}>
@@ -29,8 +21,6 @@ const RadioFieldInputDraggable = ({ label, options, defaultValue  }) => {
         ))}
       </RadioGroup>
     </FormControl>
-    </div>
-    
   );
 };
 const RadioFieldInput = (props) => <RadioFieldInputDraggable {...props}/>

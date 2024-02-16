@@ -11,6 +11,8 @@ import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
 import { chiptuneTheme } from "./themes/chiptune";
 import LayoutPrincipal from "./screens/LayoutPrincipal";
+import LayoutTemplates from "./screens/LayoutTemplates";
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export const App = () => (
   <Admin 
@@ -18,6 +20,7 @@ export const App = () => (
     authProvider={authProvider}
     theme={chiptuneTheme}
     >
-      <Resource name="posts" list={LayoutPrincipal} />
+      <Resource name="Create" icon={EditCalendarIcon} list={LayoutPrincipal} />
+      <Resource name="Templates" list={LayoutTemplates} />
   </Admin>
 );

@@ -25,7 +25,6 @@ const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
     'RADIO_FIELD': RadioFieldInput,
     'NUMBER_FIELD': NumberFieldInput,
     'TEXT_AREA_FIELD': TextAreaField
-    // Agrega más tipos y componentes según sea necesario
   };
 
   const SelectedComponent = componentMap[type] || null;

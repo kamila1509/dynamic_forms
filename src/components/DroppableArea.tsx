@@ -2,9 +2,12 @@ import * as React from 'react';
 import {  useDrop } from 'react-dnd';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import useFormStore from '../store/formStore';
+import CustomizedDialogs from './Dialog';
 
 const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
+  const [edit, setEdit] = useState(false)
   const [isClicked, setIsClicked] = useState(Array(draggedComponents.length).fill(false));
   const [isDraggable, setIsDraggable] = useState(Array(draggedComponents.length).fill(true));
   const formStructure = useFormStore.getState().formStructure
@@ -35,6 +38,9 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
       return newState;
     });
   };
+  const onEdit = (index) => {
+    setEdit(true)
+  }
 
   return (
     <div ref={drop} style={{ height: '100%', padding: '20px', border: isActive ? '2px dashed #aaa' : '2px solid #aaa' }}>
@@ -60,6 +66,12 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
                 <DeleteIcon onClick={() => onDelete(index)} />
               </div>
             )}
+            {isClickedElement && (
+              <div style={{ position: 'absolute', top: 0, left: 0, cursor: 'pointer' }}>
+              <EditIcon onClick={() => onEdit(index)} />
+            </div>
+            )}
+            {edit && (<CustomizedDialogs open={edit}></CustomizedDialogs>)}
           </div>
         );
       })}

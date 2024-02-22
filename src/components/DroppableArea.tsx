@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  useDrop } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,11 +7,11 @@ import useFormStore from '../store/formStore';
 import CustomizedDialogs from './Dialog';
 
 const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
-  const [edit, setEdit] = useState(false)
+  const [editStates, setEditStates] = useState(Array(draggedComponents.length).fill(false));
   const [isClicked, setIsClicked] = useState(Array(draggedComponents.length).fill(false));
   const [isDraggable, setIsDraggable] = useState(Array(draggedComponents.length).fill(true));
-  const formStructure = useFormStore.getState().formStructure
-  console.log('formStructure',formStructure)
+  const formStructure = useFormStore.getState().formStructure;
+  console.log('formStructure', formStructure);
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ['TEXT_FIELD', 'SELECT', 'DATE_FIELD', 'RADIO_FIELD', 'NUMBER_FIELD', 'TEXT_AREA_FIELD'],
@@ -38,9 +38,22 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
       return newState;
     });
   };
+
   const onEdit = (index) => {
-    setEdit(true)
-  }
+    setEditStates((prev) => {
+      const newEditStates = [...prev];
+      newEditStates[index] = true;
+      return newEditStates;
+    });
+  };
+  const handleSaveChanges = (index) => {
+    console.log(index)
+    console.log('AQUIIII',formStructure[index])
+  };
+
+  const handleEditDialogClose = () => {
+    setEditStates(Array(draggedComponents.length).fill(false));
+  };
 
   return (
     <div ref={drop} style={{ height: '100%', padding: '20px', border: isActive ? '2px dashed #aaa' : '2px solid #aaa' }}>
@@ -48,6 +61,7 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
         const { Component, props } = componentObject;
         const isClickedElement = isClicked[index];
         const isDraggableElement = isDraggable[index];
+        const editState = editStates[index];
 
         return (
           <div
@@ -68,10 +82,10 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
             )}
             {isClickedElement && (
               <div style={{ position: 'absolute', top: 0, left: 0, cursor: 'pointer' }}>
-              <EditIcon onClick={() => onEdit(index)} />
-            </div>
+                <EditIcon onClick={() => onEdit(index)} />
+              </div>
             )}
-            {edit && (<CustomizedDialogs open={edit}></CustomizedDialogs>)}
+            {editState && <CustomizedDialogs open={editState} onClose={handleEditDialogClose} index={index}  />}
           </div>
         );
       })}
@@ -79,4 +93,4 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
   );
 };
 
-export default DroppableArea
+export default DroppableArea;

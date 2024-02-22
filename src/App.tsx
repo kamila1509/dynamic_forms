@@ -16,6 +16,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export const App = () => (
   <Admin 
+    basename="/login"
     dataProvider={dataProvider} 
     authProvider={authProvider}
     theme={chiptuneTheme}

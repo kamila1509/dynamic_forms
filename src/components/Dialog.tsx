@@ -9,14 +9,13 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import useFormStore from "../store/formStore";
 import { validationMap } from "../utils/global"; // Asegúrate de importar el mapa de validaciones
 import { Grid } from "@mui/material";
-
-
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -44,10 +43,19 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
     minLength: "",
     maxLength: "",
     regex: "",
-    label: ""
+    label: "",
+    options: [],
+  });
+
+  const [newOption, setNewOption] = React.useState({
+    label: "",
+    value: "",
   });
 
   const componentType = formStructure[index]?.type || "";
+  React.useEffect(() => {
+    setAdditionalParam(formStructure[index].props);
+  }, []);
 
   const handleValidationTypeChange = (event) => {
     setValidationType(event.target.value);
@@ -58,7 +66,7 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
       ...prev,
       [key]: event.target.value,
     }));
-    console.log(additionalParam)
+    console.log(additionalParam);
   };
 
   const handleCheckboxChange = (key) => {
@@ -66,6 +74,41 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
       ...prev,
       [key]: !prev[key],
     }));
+  };
+  const handleOptionChange = (event, optionIndex, key) => {
+    setAdditionalParam((prev) => {
+      const updatedOptions = [...prev.options];
+      updatedOptions[optionIndex] = {
+        ...updatedOptions[optionIndex],
+        [key]: event.target.value,
+      };
+      return {
+        ...prev,
+        options: updatedOptions,
+      };
+    });
+  };
+
+  const handleAddOption = () => {
+    setAdditionalParam((prev) => ({
+      ...prev,
+      options: [...prev.options, newOption],
+    }));
+    setNewOption({
+      label: "",
+      value: "",
+    });
+  };
+
+  const handleRemoveOption = (optionIndex) => {
+    setAdditionalParam((prev) => {
+      const updatedOptions = [...prev.options];
+      delete updatedOptions[optionIndex];
+      return {
+        ...prev,
+        options: updatedOptions,
+      };
+    });
   };
 
   const handleSaveChangesInternal = () => {
@@ -103,9 +146,9 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
       <DialogContent dividers>
         <Grid container spacing={2} style={{ flexDirection: "column" }}>
           <Grid item>
-          <Typography gutterBottom>Edita el nombre de tu Label</Typography>
+            <Typography gutterBottom>Edita el nombre de tu Label</Typography>
           </Grid>
-          <Grid item >
+          <Grid item>
             <TextField
               label="Label"
               variant="outlined"
@@ -114,6 +157,84 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
               onChange={(e) => handleAdditionalParamChange(e, "label")}
             />
           </Grid>
+          {(componentType === "SELECT" || componentType === "RADIO_FIELD") && (
+            <Grid
+              container
+              style={{ flexDirection: "column", padding: "20px", gap: 10 }}
+            >
+              <Grid item>
+                <Typography gutterBottom>Opciones:</Typography>
+              </Grid>
+              <Grid container spacing={1} item>
+                <Grid item>
+                  <TextField
+                    label="Label"
+                    variant="outlined"
+                    value={newOption.label}
+                    onChange={(e) =>
+                      setNewOption({ ...newOption, label: e.target.value })
+                    }
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    label="Value"
+                    variant="outlined"
+                    value={newOption.value}
+                    onChange={(e) =>
+                      setNewOption({ ...newOption, value: e.target.value })
+                    }
+                  />
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleAddOption()}
+                    style={{ marginTop: "10px" }}
+                  >
+                    +
+                  </Button>
+                </Grid>
+              </Grid>
+              {additionalParam.options &&
+                additionalParam.options.map((option, optionIndex) => (
+                  <Grid key={optionIndex} container spacing={1}>
+                    <Grid item>
+                      {" "}
+                      <TextField
+                        label="Label"
+                        variant="outlined"
+                        fullWidth
+                        value={option.label}
+                        onChange={(e) =>
+                          handleOptionChange(e, optionIndex, "label")
+                        }
+                      />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        label="Value"
+                        variant="outlined"
+                        fullWidth
+                        value={option.value}
+                        onChange={(e) =>
+                          handleOptionChange(e, optionIndex, "value")
+                        }
+                      />
+                    </Grid>
+                    <Grid item>
+                      <IconButton
+                        onClick={() => handleRemoveOption(optionIndex)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </Grid>
         <Typography gutterBottom>
           Selecciona el tipo de validación para el componente:
@@ -134,8 +255,10 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
                       onChange={() => handleCheckboxChange(validationOption)}
                     />
                   }
-                  label={validationOption.charAt(0).toUpperCase() +
-                    validationOption.slice(1) }
+                  label={
+                    validationOption.charAt(0).toUpperCase() +
+                    validationOption.slice(1)
+                  }
                 />
               );
             case "length":

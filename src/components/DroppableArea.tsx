@@ -5,13 +5,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import useFormStore from '../store/formStore';
 import CustomizedDialogs from './Dialog';
+import useUserStore from '../store/userStore';
 
 const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
   const [editStates, setEditStates] = useState(Array(draggedComponents.length).fill(false));
   const [isClicked, setIsClicked] = useState(Array(draggedComponents.length).fill(false));
   const [isDraggable, setIsDraggable] = useState(Array(draggedComponents.length).fill(true));
   const formStructure = useFormStore.getState().formStructure;
-  console.log('formStructure', formStructure);
+  const user = useUserStore.getState().user
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ['TEXT_FIELD', 'SELECT', 'DATE_FIELD', 'RADIO_FIELD', 'NUMBER_FIELD', 'TEXT_AREA_FIELD'],

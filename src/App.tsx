@@ -13,10 +13,12 @@ import { chiptuneTheme } from "./themes/chiptune";
 import LayoutPrincipal from "./screens/LayoutPrincipal";
 import LayoutTemplates from "./screens/LayoutTemplates";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import Login from "./screens/Login";
 
 export const App = () => (
   <Admin 
     basename="/login"
+    loginPage={Login}
     dataProvider={dataProvider} 
     authProvider={authProvider}
     theme={chiptuneTheme}

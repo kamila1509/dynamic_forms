@@ -8,6 +8,7 @@ import DraggableComponent from '../components/DraggableComponent';
 import { useState } from 'react';
 import DroppableArea from '../components/DroppableArea';
 import useFormStore from '../store/formStore';
+import { Authenticated } from 'react-admin';
 
 export default function BasicGrid() {
   const [draggedComponents, setDraggedComponents] = useState([]);
@@ -20,7 +21,6 @@ export default function BasicGrid() {
     console.log('handleDeleteEELEM', formStructure.splice(index,1))
     const updateElements = formStructure.splice(index,1)
     useFormStore.setState({formStructure: updateElements})
-    console.log(formStructure)
   };
 
   const handleDrop = (item) => {
@@ -31,6 +31,7 @@ export default function BasicGrid() {
   };
 
   return (
+    <Authenticated>
     <DndProvider backend={HTML5Backend}>
       <Box sx={{ flexGrow: 1, height: '100%', paddingTop: '20px' }}>
         <Grid container spacing={2}>
@@ -43,5 +44,6 @@ export default function BasicGrid() {
         </Grid>
       </Box>
     </DndProvider>
+    </Authenticated>
   );
 }

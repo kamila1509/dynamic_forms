@@ -2,6 +2,7 @@ import { AuthProvider, HttpError } from "react-admin";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from './firebase';
 import useUserStore from "./store/userStore";
+import { saveUser } from "./utils/database";
 export const authProvider: AuthProvider = {
   
   login: ({ username, password }) => {
@@ -10,6 +11,7 @@ export const authProvider: AuthProvider = {
         console.log('userCredentials',userCredentials)
       useUserStore.setState({user: userCredentials.user})
         // Autenticación exitosa, podrías realizar más acciones si es necesario
+        saveUser(userCredentials.user)
         return Promise.resolve();
       })
       .catch((error) => {

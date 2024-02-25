@@ -30,8 +30,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 // ...
 
-const CustomizedDialogs = ({ open, onClose, index }) => {
-  const formStructure = useFormStore.getState().formStructure;
+const CustomizedDialogs = ({ formStructure, onSaveChanges ,open, onClose, index }) => {
+  //const formStructure = useFormStore.getState().formStructure;
   const formStore = useFormStore();
   const [validationType, setValidationType] = React.useState("");
   const [additionalParam, setAdditionalParam] = React.useState({
@@ -54,7 +54,8 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
 
   const componentType = formStructure[index]?.type || "";
   React.useEffect(() => {
-    setAdditionalParam(formStructure[index].props);
+    console.log(formStructure)
+    setAdditionalParam(formStructure[index]?.props);
   }, []);
 
   const handleValidationTypeChange = (event) => {
@@ -115,7 +116,7 @@ const CustomizedDialogs = ({ open, onClose, index }) => {
     console.log("Índice:", index);
     console.log("Tipo de validación:", validationType);
     console.log("Valor adicional:", additionalParam);
-    formStore.updateElement(index, { ...additionalParam });
+    onSaveChanges(index, { ...additionalParam })
     // Realiza acciones con el tipo de validación y el valor adicional
     // ...
     // Cierra el diálogo

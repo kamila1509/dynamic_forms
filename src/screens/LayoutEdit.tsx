@@ -17,23 +17,23 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { saveFormData } from "../utils/database";
+import { saveFormData, updateFormData } from "../utils/database";
 import BasicGrid from "../components/BasicGrid";
 
-export default function LayoutPrincipal({...props}) {
-  const formStructure = useFormStore.getState().formStructure;
-  const [draggedComponents, setDraggedComponents] = useState([]);
-  const [formUpdated, setFormUpdated] = useState(formStructure)
-  const updateElement = useFormStore((state) => state.updateElement);
-  const addElement = useFormStore((state) => state.addElement);
+export default function LayoutEdit({...props}) {
+  const updateElement = useFormStore((state) => state.updateSelectedForm);
+  const form = useFormStore.getState().selectedForm;
+  const [formUpdated, setFormUpdated] = useState(form)
+  const addElement = useFormStore((state) => state.addElementToSelectedForm);
   const clearFormStructure = useFormStore((state) => state.clearFormStructure)
+  console.log('FORM',form)
   React.useEffect(() => {
     // Suscribirse a los cambios en formStructure
     const unsubscribe = useFormStore.subscribe(
       (newFormStructure) => {
         // Manejar el cambio en formStructure
-        setFormUpdated(newFormStructure.formStructure)
-        console.log("formStructure ha cambiado:", newFormStructure);
+        setFormUpdated(newFormStructure.selectedForm)
+        console.log("selectedForm ha cambiado:", newFormStructure);
       },
       (state) => state.formStructure
     );
@@ -44,22 +44,23 @@ export default function LayoutPrincipal({...props}) {
     // Devolver la función de limpieza para desuscribirse cuando el componente se desmonta
     return unsubscribe;
   }, [clearFormStructure]);
-
+  
   const updateElementSelectedForm = (elements: any) => {
-    useFormStore.setState({ formStructure: { ...elements} });
+    useFormStore.setState({ selectedForm: { ...form, form: elements} });
   }
   const handleSaveData = (name: any) => {
-    saveFormData(formStructure, name)
+    const updated = useFormStore.getState().selectedForm.form;
+    updateFormData(updated, name, form.id)
+    
   }
   const handleSaveChanges = (index: any, additionalParam: any) => {
     updateElement(index, { ...additionalParam });
   }
-
   return (
     <Authenticated>
        <BasicGrid
-        formStructure={formUpdated}
-        selectedForm={null}
+        formStructure={formUpdated.form}
+        selectedForm={formUpdated}
         addElement={addElement}
         updateElementsStructure={updateElementSelectedForm}
         saveData={handleSaveData}

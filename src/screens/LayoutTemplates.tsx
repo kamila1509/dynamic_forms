@@ -9,6 +9,7 @@ import * as React from "react";
 import { getFormsForUser } from "../utils/database";
 import useUserStore from "../store/userStore";
 import FormList from "../components/FormList";
+import { Authenticated } from "react-admin";
 
 const LayoutTemplates = () => {
   const [forms, setForms] = React.useState({});
@@ -23,6 +24,7 @@ const LayoutTemplates = () => {
     getFormsForUser()
       .then((forms) => {
         setForms(forms);
+        console.log('forms',forms)
         setShowLoading(false);
       })
       .catch((error) => {
@@ -31,6 +33,12 @@ const LayoutTemplates = () => {
         setShowLoading(false);
       });
   }, [userId]);
+
+  React.useEffect(()=>{
+    return () =>{
+      console.log('se cambio de pesta;as')
+    }
+  },[])
 
   if (showLoading) {
     return (
@@ -51,6 +59,7 @@ const LayoutTemplates = () => {
   }
 
   return (
+    <Authenticated>
     <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px" }}>
       <Grid container spacing={2}>
         <Stack direction="column" flexWrap="wrap" flexGrow={1}>
@@ -62,6 +71,7 @@ const LayoutTemplates = () => {
         </Stack>
       </Grid>
     </Box>
+    </Authenticated>
   );
 };
 

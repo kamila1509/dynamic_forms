@@ -57,6 +57,29 @@ export const saveFormData = (datos, name) => {
     });
 };
 
+export const updateFormData = (datos, name, id) => {
+  const userUid = useUserStore.getState().user.uid;
+  console.log(userUid);
+  const formStructureId = id
+  // Crea una referencia a la ubicación en la base de datos específica para ese usuario
+  const formStructuresRef = ref(
+    db,
+    `users/${userUid}/forms/${formStructureId}/`
+  );
+  set(formStructuresRef, {
+    name,
+    id: formStructureId,
+    form: filterUndefined(datos),
+  })
+    .then(() => {
+      console.log(
+        "Datos de formStructures actualizados con éxito"
+      );
+    })
+    .catch((error) => {
+      console.error("Error al guardar datos de formStructures:", error);
+    });
+};
 export const getFormsForUser = async () => {
   const userId = useUserStore.getState().user.uid;
   const db = getDatabase();

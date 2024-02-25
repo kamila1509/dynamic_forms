@@ -7,11 +7,11 @@ import useFormStore from '../store/formStore';
 import CustomizedDialogs from './Dialog';
 import useUserStore from '../store/userStore';
 
-const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
+const DroppableArea = ({ formStructure ,onDrop, draggedComponents, onDelete, onSaveChanges }) => {
   const [editStates, setEditStates] = useState(Array(draggedComponents.length).fill(false));
   const [isClicked, setIsClicked] = useState(Array(draggedComponents.length).fill(false));
   const [isDraggable, setIsDraggable] = useState(Array(draggedComponents.length).fill(true));
-  const formStructure = useFormStore.getState().formStructure;
+  //const formStructure = useFormStore.getState().formStructure;
   const user = useUserStore.getState().user
 
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -86,7 +86,7 @@ const DroppableArea = ({ onDrop, draggedComponents, onDelete }) => {
                 <EditIcon onClick={() => onEdit(index)} />
               </div>
             )}
-            {editState && <CustomizedDialogs open={editState} onClose={handleEditDialogClose} index={index}  />}
+            {editState && <CustomizedDialogs formStructure={formStructure} onSaveChanges={onSaveChanges} open={editState} onClose={handleEditDialogClose} index={index}  />}
           </div>
         );
       })}

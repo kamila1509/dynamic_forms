@@ -31,7 +31,7 @@ const LayoutTemplates = (...props) => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    No tienes Fomrulario
+                    No tienes Fomrularios
                   </Typography>
                 </CardContent>
               </Card>

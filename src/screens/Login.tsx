@@ -67,6 +67,9 @@ const Login = () => {
         setLoading(true);
         authProvider.signUp(email, password)
             .then(() => {
+                login({username: email, password},
+                    location.state ? (location.state as any).nextPathname : '/'
+                    )
                 // El usuario se registró correctamente, puedes realizar acciones adicionales si es necesario
                 console.log('Usuario registrado exitosamente');
             })

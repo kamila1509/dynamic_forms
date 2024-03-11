@@ -39,7 +39,7 @@ const Login = () => {
         setLoading(true);
         login(
             {username: email, password},
-            location.state ? (location.state as any).nextPathname : '/'
+            location.state ? (location.state as any).nextPathname : '/admin'
         ).catch((error: Error) => {
             setLoading(false);
             notify(

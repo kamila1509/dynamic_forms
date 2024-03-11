@@ -23,7 +23,6 @@ const App = () => {
 
   return (
     <StoreContextProvider value={store}>
-      <Router>
         <Routes>
           {/* Rutas fuera de la administración */}
           <Route path="/form/:userId/:formId" element={<FormView />} />
@@ -53,7 +52,6 @@ const App = () => {
           
           {/* Ruta por defecto, por ejemplo, redirigir a la administración */}
         </Routes>
-      </Router>
     </StoreContextProvider>
   );
 };

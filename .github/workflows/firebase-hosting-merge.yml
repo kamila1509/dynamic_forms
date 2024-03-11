@@ -9,6 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Clean Node Modules Cache
+        run: rm -rf node_modules
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:

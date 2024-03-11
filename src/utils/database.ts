@@ -100,3 +100,25 @@ export const getFormsForUser = async () => {
     return [];
   }
 };
+
+export const getFormById = async (userId: string, idForm: string) => {
+  ///const userId = useUserStore.getState().user.uid;
+  const db = getDatabase();
+const userRef = ref(db, `users/${userId}/forms/${idForm}`);
+
+  try {
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      // Obtener todos los formularios del usuario
+      const form = snapshot.val();
+      return form;
+    } else {
+      console.log("El usuario no tiene formularios.");
+      return [];
+    }
+  } catch (error) {
+    console.error("Error al obtener los formularios:", error);
+    return [];
+  }
+
+}

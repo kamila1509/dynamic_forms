@@ -33,10 +33,6 @@ const App = () => {
     >
       <Resource name="Create" icon={EditCalendarIcon} list={LayoutPrincipal} />
       <Resource name="Templates" list={LayoutTemplates} edit={LayoutEdit} />
-      <CustomRoutes>
-            <Route path="/form" element={<div>TEST</div>} />
-            {/* <Route path="/profile" element={<Profile />} /> */}
-        </CustomRoutes>
     </Admin>
   );
 };

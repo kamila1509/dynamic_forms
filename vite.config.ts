@@ -10,5 +10,8 @@ export default defineConfig({
     server: {
         host: true,
     },
-    base: './',
+    base: '/',
+    build: {
+        manifest: true
+    }
 });

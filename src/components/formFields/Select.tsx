@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { applyValidation } from '../../utils/validations';
 
-const DraggableSelect = ({ label, options, defaultValue, onChange, ...props }) => {
+const DraggableSelect = ({ label, options, defaultValue, onChange, id, ...props }) => {
   const [error, setError] = useState(null);
 
   const handleSelectChange = (event) => {
@@ -13,8 +13,8 @@ const DraggableSelect = ({ label, options, defaultValue, onChange, ...props }) =
     const validationError = applyValidation(selectedValue, props);
     setError(validationError);
 
-    if (onChange) {
-      onChange(selectedValue, validationError);
+    if (event) {
+      onChange(event);
     }
   };
 
@@ -22,6 +22,7 @@ const DraggableSelect = ({ label, options, defaultValue, onChange, ...props }) =
     <FormControl fullWidth variant="outlined">
       <InputLabel>{label}</InputLabel>
       <Select
+        inputProps={{id}}
         defaultValue={defaultValue}
         label={label}
         onChange={handleSelectChange}

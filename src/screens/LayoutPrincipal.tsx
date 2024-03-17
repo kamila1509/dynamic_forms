@@ -22,11 +22,9 @@ import BasicGrid from "../components/BasicGrid";
 
 export default function LayoutPrincipal({...props}) {
   const formStructure = useFormStore.getState().formStructure;
-  const [draggedComponents, setDraggedComponents] = useState([]);
   const [formUpdated, setFormUpdated] = useState(formStructure)
   const updateElement = useFormStore((state) => state.updateElement);
   const addElement = useFormStore((state) => state.addElement);
-  const clearFormStructure = useFormStore((state) => state.clearFormStructure)
   React.useEffect(() => {
     // Suscribirse a los cambios en formStructure
     const unsubscribe = useFormStore.subscribe(
@@ -38,21 +36,21 @@ export default function LayoutPrincipal({...props}) {
       (state) => state.formStructure
     );
 
-    // Limpiar formStructure al montar el componente
-    clearFormStructure();
-
     // Devolver la función de limpieza para desuscribirse cuando el componente se desmonta
     return unsubscribe;
-  }, [clearFormStructure]);
+  }, []);
 
   const updateElementSelectedForm = (elements: any) => {
-    useFormStore.setState({ formStructure: { ...elements} });
+    useFormStore.setState({ formStructure: [ ...elements] });
   }
   const handleSaveData = (name: any) => {
     saveFormData(formStructure, name)
   }
   const handleSaveChanges = (index: any, additionalParam: any) => {
+    console.log(index)
+    console.log(additionalParam)
     updateElement(index, { ...additionalParam });
+
   }
 
   return (

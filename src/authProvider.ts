@@ -1,4 +1,4 @@
-import { AuthProvider, HttpError, useAuthProvider } from "react-admin";
+import { AuthProvider, HttpError, addRefreshAuthToAuthProvider } from "react-admin";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from './firebase';
 import useUserStore from "./store/userStore";
@@ -48,8 +48,10 @@ export const authProvider: AuthProvider = {
         unsubscribe();
         
         if (user) {
+          console.log(user)
           resolve();
         } else {
+          useUserStore.setState({ user: null });
           reject();
         }
       }, (error) => {
@@ -73,6 +75,7 @@ export const authProvider: AuthProvider = {
           }
         },
         (error) => {
+          useUserStore.setState({ user: null });
           console.error('Error al obtener identidad:', error);
           reject();
         }

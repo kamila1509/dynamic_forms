@@ -47,11 +47,7 @@ const DroppableArea = ({ formStructure ,onDrop, draggedComponents, onDelete, onS
       return newEditStates;
     });
   };
-  const handleSaveChanges = (index) => {
-    console.log(index)
-    console.log('AQUIIII',formStructure[index])
-  };
-
+  
   const handleEditDialogClose = () => {
     setEditStates(Array(draggedComponents.length).fill(false));
   };

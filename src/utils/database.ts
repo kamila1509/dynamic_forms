@@ -28,7 +28,6 @@ function filterUndefined(data) {
 }
 export const saveUser = (user) => {
   const userRef = ref(db, `users/${user.uid}`);
-
   return update(userRef, { email: user.email });
 };
 
@@ -60,7 +59,7 @@ export const saveFormData = (datos, name) => {
 export const updateFormData = (datos, name, id) => {
   const userUid = useUserStore.getState().user.uid;
   console.log(userUid);
-  const formStructureId = id
+  const formStructureId = id;
   // Crea una referencia a la ubicación en la base de datos específica para ese usuario
   const formStructuresRef = ref(
     db,
@@ -72,9 +71,7 @@ export const updateFormData = (datos, name, id) => {
     form: filterUndefined(datos),
   })
     .then(() => {
-      console.log(
-        "Datos de formStructures actualizados con éxito"
-      );
+      console.log("Datos de formStructures actualizados con éxito");
     })
     .catch((error) => {
       console.error("Error al guardar datos de formStructures:", error);
@@ -101,24 +98,3 @@ export const getFormsForUser = async () => {
   }
 };
 
-export const getFormById = async (userId: string, idForm: string) => {
-  ///const userId = useUserStore.getState().user.uid;
-  const db = getDatabase();
-const userRef = ref(db, `users/${userId}/forms/${idForm}`);
-
-  try {
-    const snapshot = await get(userRef);
-    if (snapshot.exists()) {
-      // Obtener todos los formularios del usuario
-      const form = snapshot.val();
-      return form;
-    } else {
-      console.log("El usuario no tiene formularios.");
-      return [];
-    }
-  } catch (error) {
-    console.error("Error al obtener los formularios:", error);
-    return [];
-  }
-
-}

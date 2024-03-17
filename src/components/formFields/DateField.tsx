@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { useDrag } from 'react-dnd';
+import { applyValidation } from '../../utils/validations';
 
-const DateFieldInput = ({ label, defaultValue, ...props }) => {
+const DateFieldInput = ({ label, defaultValue, onChange, ...props }) => {
+  const [error, setError] = useState(null);
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    const validationError = applyValidation(inputValue, props);
+    setError(validationError);
+
+    if (event) {
+      onChange(event);
+    }
+  };
   return (
 
       <TextField
@@ -10,6 +20,8 @@ const DateFieldInput = ({ label, defaultValue, ...props }) => {
       label={label}
       variant="outlined"
       fullWidth
+      onChange={handleInputChange}
+      error={error !== null}
       InputLabelProps={{
         shrink: true,
       }}

@@ -20,9 +20,11 @@ export const ThemeSwapper = () => {
         const newTheme = themes[index];
         console.log(newTheme)
         setThemeName(newTheme.name);
+        console.log('update',themeName)
         setAnchorEl(null);
     };
     const currentTheme = themes.find(theme => theme.name === themeName);
+    console.log('current Theme',currentTheme)
 
     const translate = useTranslate();
     const toggleThemeTitle = translate('pos.action.change_theme', {

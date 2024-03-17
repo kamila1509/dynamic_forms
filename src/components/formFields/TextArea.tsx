@@ -10,8 +10,8 @@ const TextAreaField = ({ label, defaultValue, onChange, ...props }) => {
     const validationError = applyValidation(textareaValue, props);
     setError(validationError);
 
-    if (onChange) {
-      onChange(textareaValue, validationError);
+    if (event) {
+      onChange(event);
     }
   };
 

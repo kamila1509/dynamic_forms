@@ -22,3 +22,14 @@ export const validationMap = {
   NUMBER_FIELD: ["required", "numbers"],
   TEXT_AREA_FIELD: ["required", "length"],
 };
+
+export function formatObject(inputArray: []) {
+  const result = {};
+
+  inputArray.forEach(item => {
+      const label = item.props.formValue;
+      result[label] =  '';
+  });
+
+  return result;
+}

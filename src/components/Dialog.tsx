@@ -45,6 +45,7 @@ const CustomizedDialogs = ({ formStructure, onSaveChanges ,open, onClose, index 
     regex: "",
     label: "",
     options: [],
+    formValue: ""
   });
 
   const [newOption, setNewOption] = React.useState({
@@ -157,6 +158,14 @@ const CustomizedDialogs = ({ formStructure, onSaveChanges ,open, onClose, index 
               value={additionalParam.label}
               onChange={(e) => handleAdditionalParamChange(e, "label")}
             />
+
+            <TextField
+              label="Form Value"
+              variant="outlined"
+              fullWidth
+              value={additionalParam.formValue}
+              onChange={(e) => handleAdditionalParamChange(e, "formValue")}
+            />
           </Grid>
           {(componentType === "SELECT" || componentType === "RADIO_FIELD") && (
             <Grid
@@ -268,7 +277,7 @@ const CustomizedDialogs = ({ formStructure, onSaveChanges ,open, onClose, index 
                   <Grid item>
                     <Typography gutterBottom>Longitud</Typography>
                   </Grid>
-                  <Grid container spacing={2}>
+                  <Grid style={{margin:10, display:'flex', flexDirection:'row', gap:5}}>
                     <Grid item xs={6}>
                       <TextField
                         key="minLength"

@@ -10,8 +10,8 @@ const TextFieldInput = ({ label, defaultValue, onChange, ...props }) => {
     const validationError = applyValidation(inputValue, props);
     setError(validationError);
 
-    if (onChange) {
-      onChange(inputValue, validationError);
+    if (event) {
+      onChange(event);
     }
   };
 

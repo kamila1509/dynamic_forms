@@ -13,19 +13,32 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Icon,
   TextField,
 } from "@mui/material";
+import ShareIcon from '@mui/icons-material/Share';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import { saveFormData } from "../utils/database";
+import { string } from "yup";
 
-const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStructure, saveData, onSaveChanges }) => {
+const BasicGrid = ({
+  formStructure,
+  selectedForm,
+  addElement,
+  updateElementsStructure,
+  saveData,
+  onSaveChanges,
+  showLink
+}) => {
   const [draggedComponents, setDraggedComponents] = useState([]);
   const [nameForm, setNameForm] = useState(selectedForm?.name);
   const [openModal, setOpenModal] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
     if (selectedForm && selectedForm.form) {
       setDraggedComponents([]);
-      setNameForm(selectedForm.name)
+      setNameForm(selectedForm.name);
       selectedForm.form.forEach((element) => {
         handleDrop2(element);
         const newComponent = {
@@ -41,7 +54,7 @@ const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStru
     const updatedComponents = [...draggedComponents];
     updatedComponents.splice(index, 1);
     setDraggedComponents(updatedComponents);
-
+    console.log(formStructure)
     const updateElements = formStructure.splice(index, 1);
     updateElementsStructure(updateElements);
   };
@@ -80,8 +93,8 @@ const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStru
 
   const handleSaveModal = () => {
     console.log("Nombre del formulario:", nameForm);
-    if(saveData) {
-      saveData(nameForm)
+    if (saveData) {
+      saveData(nameForm);
     } else {
       saveFormData(formStructure, nameForm);
     }
@@ -95,6 +108,15 @@ const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStru
       <DndProvider backend={HTML5Backend}>
         <Box sx={{ flexGrow: 1, height: "100%" }}>
           <Grid container padding={1} justifyContent={"flex-end"}>
+
+          {showLink && (
+              <Box sx={{marginRight: '50px'}}>
+                <Button autoFocus onClick={()=> setShowShare(true)} >
+                Share
+                <ShareIcon></ShareIcon>
+              </Button>
+              </Box>
+            )}
             {formStructure.length > 0 && (
               <Button autoFocus onClick={saveForm}>
                 Save Changes
@@ -107,8 +129,8 @@ const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStru
             </Grid>
             <Grid className="dropArea" item xs={10} sx={{ minHeight: "900px" }}>
               <DroppableArea
-              onSaveChanges={onSaveChanges}
-                formStructure= {formStructure}
+                onSaveChanges={onSaveChanges}
+                formStructure={formStructure}
                 onDrop={handleDrop}
                 draggedComponents={draggedComponents}
                 onDelete={handleDeleteElement}
@@ -130,6 +152,17 @@ const BasicGrid = ({ formStructure, selectedForm, addElement, updateElementsStru
             <Button onClick={handleCloseModal}>Cancelar</Button>
             <Button onClick={handleSaveModal}>Guardar</Button>
           </DialogActions>
+        </Dialog>
+        <Dialog open={showShare} onClose={()=> setShowShare(!showShare)}>
+          <DialogTitle>Compartir Formulario</DialogTitle>
+          <DialogContent style={{display: 'flex'}}>
+            <TextField
+              label="Link To Form"
+              value={showLink}
+              fullWidth
+            />
+            <Button onClick={() => {navigator.clipboard.writeText(showLink)}}><CopyAllIcon></CopyAllIcon></Button>
+          </DialogContent>
         </Dialog>
       </DndProvider>
     </Authenticated>

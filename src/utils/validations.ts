@@ -24,7 +24,7 @@ export const applyValidation = (value, validationOptions) => {
           error = validatorMap.regex(value, validationOptions.regex);
           break;
         default:
-          error = validatorMap[option](value);
+          error = validatorMap[option]? validatorMap[option](value): null;
       }
 
       if (error) {

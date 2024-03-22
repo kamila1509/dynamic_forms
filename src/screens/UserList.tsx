@@ -9,7 +9,18 @@ import {
 export const UserList = () => {
   return (
     <List resource="users">
-      <Datagrid rowClick="edit">
+      <Datagrid
+        sx={{
+          "& .RaDatagrid-checkbox": {
+            display: "none",
+          },
+          "& .MuiTableCell-paddingCheckbox.RaDatagrid-headerCell": {
+            opacity: 0,
+          },
+        }}
+        isRowSelectable={(record) => record.email}
+        rowClick="edit"
+      >
         <EmailField source="email" />
         <TextField source="displayName" />
         <SelectField

@@ -1,4 +1,4 @@
-import { AuthProvider, HttpError, addRefreshAuthToAuthProvider } from "react-admin";
+import { AuthProvider, HttpError, addRefreshAuthToAuthProvider, useStore } from "react-admin";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from './firebase';
 import useUserStore from "./store/userStore";
@@ -8,7 +8,8 @@ export const authProvider: AuthProvider = {
   login: ({ username, password }) => {
     return signInWithEmailAndPassword(auth, username, password)
       .then((userCredentials) => {
-        useUserStore.setState({ user: userCredentials.user });
+       const role =  JSON.parse(userCredentials.user.reloadUserInfo.customAttributes).role
+        useUserStore.setState({ user: userCredentials.user, role: role });
         saveUser(userCredentials.user);
       })
       .catch((error) => {
@@ -17,7 +18,7 @@ export const authProvider: AuthProvider = {
       });
   },
   logout: () => {
-    useUserStore.setState({ user: null });
+    useUserStore.setState({ user: null , role: null});
     return auth.signOut().then(() => {
       return Promise.resolve();
     });
@@ -25,7 +26,8 @@ export const authProvider: AuthProvider = {
   signUp: (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        useUserStore.setState({ user: userCredentials.user });
+        const role =  JSON.parse(userCredentials.user.reloadUserInfo.customAttributes).role
+        useUserStore.setState({ user: userCredentials.user, role: role });
         saveUser(userCredentials.user);
       })
       .catch((error) => {
@@ -45,18 +47,39 @@ export const authProvider: AuthProvider = {
       const auth = getAuth();
       
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe();
-        
         if (user) {
-          console.log(user)
-          resolve();
+          const { stsTokenManager } = user;
+          const currentTime = Date.now();
+          if (stsTokenManager && stsTokenManager.accessToken && stsTokenManager.expirationTime) {
+            const expirationTime = stsTokenManager.expirationTime;
+            if (currentTime >= expirationTime) {
+              // El token de acceso ha expirado, desloguear al usuario
+              auth.signOut().then(() => {
+                useUserStore.setState({ user: null });
+                reject('Token de acceso expirado, el usuario ha sido deslogueado');
+              }).catch((error) => {
+                console.error('Error al desloguear al usuario:', error);
+                reject('Error al desloguear al usuario');
+              });
+            } else {
+              // El token de acceso aún es válido, resolver la promesa
+              console.log('Usuario autenticado:', user);
+              resolve();
+            }
+          } else {
+            // No se pudo obtener el tiempo de expiración del token, resolver la promesa
+            console.warn('No se pudo obtener el tiempo de expiración del token de acceso');
+            resolve();
+          }
         } else {
+          // El usuario no está autenticado, resolver la promesa
           useUserStore.setState({ user: null });
-          reject();
+          reject('El usuario no está autenticado');
         }
+        unsubscribe();
       }, (error) => {
         console.error('Error al verificar autenticación:', error);
-        reject();
+        reject('Error al verificar autenticación');
       });
     });
   },
@@ -81,7 +104,8 @@ export const authProvider: AuthProvider = {
         }
       );
     });
-  },
+  }
+  
 };
 
 export default authProvider;

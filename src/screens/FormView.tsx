@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import { saveResponseForm, getFormById } from "../utils/api";
+import background from '../assets/background.jpg'
 export const DisplayFormikState = (props) => (
   <div style={{ margin: "1rem 0" }}>
     <h3 style={{ fontFamily: "monospace" }} />
@@ -65,6 +66,7 @@ const FormView = () => {
             {...props}
             id={Object.keys(initialValues)[index]}
             name={Object.keys(initialValues)[index]}
+            style={{marginBottom: 20, backgroundColor: '#fefcf9'}}
             onChange={(event) => {
               handleChange(event);
             }}
@@ -77,11 +79,12 @@ const FormView = () => {
   };
 
   return (
-    <Container>
+    <Container style={{}}>
+      <img style={{zIndex: -1, position:'absolute', left:0, width:'100vw', height:'100vh'}} src={background}></img>
       {Object.keys(initialValues).length && form && formFields && (
         <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px" }}>
           <Grid item xs={2}>
-            <Typography variant="h2">{form.name}</Typography>
+            <Typography variant="h2" style={{textTransform: 'capitalize', paddingBottom: 20}}>{form.name}</Typography>
           </Grid>
           <Formik
             initialValues={{ ...initialValues }}
@@ -133,7 +136,7 @@ const FormView = () => {
                     )}
                   </Button>
 
-                  <DisplayFormikState {...props} />
+                  {/* <DisplayFormikState {...props} /> */}
                 </form>
               );
             }}

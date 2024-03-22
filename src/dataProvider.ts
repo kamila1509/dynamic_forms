@@ -4,7 +4,7 @@ import { fetchUtils } from 'react-admin';
 import useUserStore from './store/userStore';
 const apiUrl = 'http://localhost:4000'; // Reemplaza esto con la URL de tu API
 
-const userId = useUserStore.getState()?.user?.uid;
+
 function httpClient (url, options = {}) {
     if (!options.headers) {
         options.headers = new Headers({ Accept: 'application/json' });
@@ -31,6 +31,7 @@ export const dataProvider =  {
               _end: page * perPage,
           };
           let url = `${apiUrl}/${resource}`;
+          const userId = useUserStore.getState()?.user?.uid;
           if(resource === 'responses') {
             url = `${apiUrl}/${resource}/${userId}`;
           }
@@ -52,6 +53,7 @@ export const dataProvider =  {
 
   getOne: async (resource, params) => {
     console.log("params", params)
+    const userId = useUserStore.getState()?.user?.uid;
       let url = `${apiUrl}/${resource}/${params.id}`;
       if(resource === 'responses') {
         url = `${apiUrl}/${resource}/${userId}/${params.id}`;

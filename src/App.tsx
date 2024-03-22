@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Admin, Resource, useStoreContext } from 'react-admin';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -19,6 +19,8 @@ import { UserDetail } from './screens/UserDetail';
 import { ResponseList } from './screens/ResponseList';
 import { ResponseShow } from './screens/ResponseShow';
 
+import useUserStore from "./store/userStore";
+
 const store = localStorageStore(undefined, 'DashboardForms');
 const App = () => {
   const [themeName] = useStore<ThemeName>('themeName', 'house');
@@ -26,11 +28,24 @@ const App = () => {
   const lightTheme = themes.find((theme) => theme.name === themeName)?.light;
   const darkTheme = themes.find((theme) => theme.name === themeName)?.dark;
   const store = useStoreContext();
-  console.log(store)
+  const [role, setRole] = useState('')
+  useEffect(() => {
+    // Suscribirse a los cambios en formStructure
+    const unsubscribe = useUserStore.subscribe(
+      (user) => {
+        let role
+        if (user.user?.reloadUserInfo) {
+          role =  JSON.parse(user.user?.reloadUserInfo?.customAttributes).role
+        }
+        setRole(role)
+        console.log("user  ha cambiado:", user);
+      },
+      (state) => state.user
+    );
 
-  useEffect(()=> {
-    console.log(themeName)
-  },[themeName])
+    // Devolver la función de limpieza para desuscribirse cuando el componente se desmonta
+    return unsubscribe;
+  }, [role]);
 
   return (
     
@@ -62,12 +77,8 @@ const App = () => {
                 list={LayoutPrincipal} />
                 <Resource name="Templates" list={LayoutTemplates} edit={LayoutEdit} />
                 <Resource name="Responses" icon={QuestionAnswerIcon} list={ResponseList} show={ResponseShow}/>
-                <Resource name="Users" icon={SupervisorAccountIcon} 
-                list={UserList} edit={UserDetail} 
-                recordRepresentation={(record) => {
-                  console.log(record)
-                  return `${record.displayName}`
-                }}/>
+                {role === 'admin' ? (<Resource name="Users" icon={SupervisorAccountIcon} 
+                list={UserList} edit={UserDetail}/>): null }
               </Admin>
               </StoreContextProvider>
             }

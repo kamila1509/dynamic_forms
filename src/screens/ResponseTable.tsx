@@ -37,7 +37,7 @@ const [responses, setResponses] = useState([]);
             ))}
           </TableRow>
         </TableHead>
-        {responses.length > 0 && (
+        {responses.length > 0  ?(
         <TableBody>
           {responses.map((response, index) => (
             <TableRow key={index}>
@@ -48,7 +48,7 @@ const [responses, setResponses] = useState([]);
                 })}
             </TableRow>
           ))}
-        </TableBody>)}
+        </TableBody>): <Typography variant="h6">No tiene Respuestas</Typography>}
       </Table>
     </div>
   );

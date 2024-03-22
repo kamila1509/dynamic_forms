@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 export const UserDetail = () => {
   const { id } = useParams();
   return (
-    <Edit resource="users">
+    <Edit resource="users" title={'Users'}>
       <SimpleForm>
         <TextInput source="displayName" />
 

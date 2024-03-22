@@ -1,3 +1,4 @@
+import Attachment from "../components/formFields/AttachmentField";
 import DateFieldInput from "../components/formFields/DateField";
 import NumberFieldInput from "../components/formFields/NumberField";
 import RadioFieldInput from "../components/formFields/RadioField";
@@ -12,6 +13,7 @@ export const componentMap = {
   RADIO_FIELD: RadioFieldInput,
   NUMBER_FIELD: NumberFieldInput,
   TEXT_AREA_FIELD: TextAreaField,
+  ATTACHMENT_FIELD: Attachment
 };
 
 export const validationMap = {

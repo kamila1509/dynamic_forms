@@ -1,4 +1,5 @@
 import Attachment from "../components/formFields/AttachmentField";
+import CheckBoxField from "../components/formFields/CheckBox";
 import DateFieldInput from "../components/formFields/DateField";
 import NumberFieldInput from "../components/formFields/NumberField";
 import RadioFieldInput from "../components/formFields/RadioField";
@@ -13,7 +14,8 @@ export const componentMap = {
   RADIO_FIELD: RadioFieldInput,
   NUMBER_FIELD: NumberFieldInput,
   TEXT_AREA_FIELD: TextAreaField,
-  ATTACHMENT_FIELD: Attachment
+  ATTACHMENT_FIELD: Attachment,
+  CHECKBOX_FIELD: CheckBoxField
 };
 
 export const validationMap = {
@@ -23,6 +25,7 @@ export const validationMap = {
   RADIO_FIELD: ["required"],
   NUMBER_FIELD: ["required", "numbers"],
   TEXT_AREA_FIELD: ["required", "length"],
+  CHECKBOX_FIELD: ["required"]
 };
 
 export function formatObject(inputArray: []) {

@@ -15,7 +15,7 @@ const DroppableArea = ({ formStructure ,onDrop, draggedComponents, onDelete, onS
   const user = useUserStore.getState().user
 
   const [{ canDrop, isOver }, drop] = useDrop({
-    accept: ['TEXT_FIELD', 'SELECT', 'DATE_FIELD', 'RADIO_FIELD', 'NUMBER_FIELD', 'TEXT_AREA_FIELD', 'ATTACHMENT_FIELD'],
+    accept: ['TEXT_FIELD', 'SELECT', 'DATE_FIELD', 'RADIO_FIELD', 'NUMBER_FIELD', 'TEXT_AREA_FIELD', 'ATTACHMENT_FIELD','CHECKBOX_FIELD'],
     drop: (item, monitor) => {
       const index = monitor.getItem().index;
       onDrop(item);

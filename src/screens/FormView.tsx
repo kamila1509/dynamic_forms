@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import { saveResponseForm, getFormById } from "../utils/api";
 import background from '../assets/background.jpg'
+import { getFormById, saveResponseForm } from "../utils/database";
 export const DisplayFormikState = (props) => (
   <div style={{ margin: "1rem 0" }}>
     <h3 style={{ fontFamily: "monospace" }} />
@@ -41,11 +41,14 @@ const FormView = () => {
         // Aquí realiza la llamada a tu base de datos y obtén la estructura del formulario
         const response = await getFormById(userId, formId);
         const formData = response;
-        setFormFields(formData.form);
+        setTimeout(() => {
+          setFormFields(formData.form);
         console.log("FORMVIEWWWWW", formFields);
         setInitialValues(formatObject(formData.form));
         console.log(formatObject(formFields));
         setForm(formData);
+        },1000)
+        
       } catch (error) {
         console.error("Error al obtener los datos del formulario", error);
       }
@@ -79,20 +82,24 @@ const FormView = () => {
   };
 
   return (
-    <Container style={{}}>
-      <img style={{zIndex: -1, position:'absolute', left:0, width:'100vw', height:'100vh'}} src={background}></img>
-      {Object.keys(initialValues).length && form && formFields && (
+    <Container style={{ 
+      maxWidth: 500,
+      paddingBottom: 24,
+      borderRadius: 8,
+      height: '100vh',
+      boxShadow: '4px 8px 40px 8px rgba(88, 146, 255, 0.2)'}}>
+      {(Object.keys(initialValues).length && form && formFields) ? (
         <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px" }}>
           <Grid item xs={2}>
-            <Typography variant="h2" style={{textTransform: 'capitalize', paddingBottom: 20}}>{form.name}</Typography>
+            <Typography variant="h3" style={{textTransform: 'capitalize', paddingBottom: 20}}>{form.name}</Typography>
           </Grid>
           <Formik
             initialValues={{ ...initialValues }}
             onSubmit={async (values) => {
               await new Promise((resolve) => setTimeout(resolve, 500));
               let createdDate = new Date().toLocaleString()
-              alert(JSON.stringify({...values, createdDate}, null, 2));
-              await saveResponseForm(userId, formId, {response: {...values, createdDate}})
+              await saveResponseForm(userId, formId,  {...values, createdDate})
+              window.location.href = '/success'
             }}
           >
             {(props) => {
@@ -136,12 +143,17 @@ const FormView = () => {
                     )}
                   </Button>
 
-                  {/* <DisplayFormikState {...props} /> */}
+                 
                 </form>
               );
             }}
           </Formik>
         </Box>
+      ): (
+       <Box sx={{display: 'flex',flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+         <CircularProgress size={50} thickness={2} />
+         <Typography variant="h5" style={{textTransform: 'capitalize', paddingBottom: 20}}>...Loading Form</Typography>
+       </Box>
       )}
     </Container>
   );

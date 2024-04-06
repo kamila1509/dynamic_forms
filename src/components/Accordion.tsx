@@ -11,6 +11,7 @@ import DateFieldInput from './formFields/DateField';
 import RadioFieldInput from './formFields/RadioField';
 import NumberFieldInput from './formFields/NumberField';
 import TextAreaField from './formFields/TextArea';
+import CheckBoxField from './formFields/CheckBox';
 
 const DraggableAccordionItem = ({ type, label, defaultValue, options}) => {
   const [{ isDragging }, drag] = useDrag({
@@ -42,6 +43,8 @@ const renderAccordionItem = (type, label, defaultValue, options) => {
       return <NumberFieldInput label={label} defaultValue={defaultValue} />;
     case 'TEXT_AREA_FIELD':
       return <TextAreaField label={label} defaultValue={defaultValue} />;
+    case 'CHECKBOX_FIELD':
+      return <CheckBoxField label={label} defaultValue={defaultValue} options={options} />;
     default:
       return null;
   }
@@ -70,6 +73,7 @@ export default function AccordionExpandIcon() {
         <DraggableAccordionItem type="RADIO_FIELD" label="Radio" defaultValue="" options={[{ label: 'label1', value: '1' }]} />
         <DraggableAccordionItem type="NUMBER_FIELD" label="Number" defaultValue="" />
         <DraggableAccordionItem type="TEXT_AREA_FIELD" label="TextArea" defaultValue="" />
+        <DraggableAccordionItem type="CHECKBOX_FIELD" defaultValue="" options={[{ label: 'CheckBox', value: '1' }]} />
       </DraggableAccordion>
     </div>
   );

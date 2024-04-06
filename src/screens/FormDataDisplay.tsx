@@ -14,7 +14,7 @@ const FormDataDisplay = () => {
       <ul>
         {formData.map((field, index) => (
           <li key={index}>
-            <strong>{field.props.label}:</strong> {field.props.defaultValue}
+            <strong>{field.props.label}</strong>
           </li>
         ))}
       </ul>

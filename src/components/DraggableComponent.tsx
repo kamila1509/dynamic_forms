@@ -7,6 +7,7 @@ import RadioFieldInput from './formFields/RadioField';
 import NumberFieldInput from './formFields/NumberField';
 import TextAreaField from './formFields/TextArea';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckBoxField from './formFields/CheckBox';
 
 const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
     const [isClicked, setIsClicked] = useState(false);
@@ -24,7 +25,8 @@ const DraggableComponent = ({ label, defaultValue, type, ...props }) => {
     'DATE_FIELD': DateFieldInput,
     'RADIO_FIELD': RadioFieldInput,
     'NUMBER_FIELD': NumberFieldInput,
-    'TEXT_AREA_FIELD': TextAreaField
+    'TEXT_AREA_FIELD': TextAreaField,
+    'CHECKBOX_FIELD': CheckBoxField
   };
 
   const SelectedComponent = componentMap[type] || null;

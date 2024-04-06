@@ -167,7 +167,7 @@ const CustomizedDialogs = ({ formStructure, onSaveChanges ,open, onClose, index 
               onChange={(e) => handleAdditionalParamChange(e, "formValue")}
             />
           </Grid>
-          {(componentType === "SELECT" || componentType === "RADIO_FIELD") && (
+          {(componentType === "CHECKBOX_FIELD" ||componentType === "SELECT" || componentType === "RADIO_FIELD" ) && (
             <Grid
               container
               style={{ flexDirection: "column", padding: "20px", gap: 10 }}

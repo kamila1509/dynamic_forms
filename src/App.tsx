@@ -20,6 +20,7 @@ import { ResponseList } from './screens/ResponseList';
 import { ResponseShow } from './screens/ResponseShow';
 
 import useUserStore from "./store/userStore";
+import ThankYouPage from './screens/ThankYou';
 
 const store = localStorageStore(undefined, 'DashboardForms');
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
         <Routes>
           {/* Rutas fuera de la administración */}
           <Route path="/form/:userId/:formId" element={<FormView />} />
+          <Route path="/success" element={<ThankYouPage/>} />
           {/* Otras rutas personalizadas si es necesario */}
           
           {/* Rutas de administración */}

@@ -24,7 +24,7 @@ export default function LayoutEdit({ ...props }) {
       },
       (state) => state.formStructure
     );
-    setshowLink(`${"http://localhost:5173"}/form/${userId}/${form.id}`);
+    setshowLink(`${window.location.origin}/form/${userId}/${form.id}`);
     // Devolver la función de limpieza para desuscribirse cuando el componente se desmonta
     return unsubscribe;
   }, []);

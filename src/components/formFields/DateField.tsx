@@ -16,6 +16,7 @@ const DateFieldInput = ({ label, defaultValue, onChange, ...props }) => {
   return (
 
       <TextField
+      autoComplete='on'
       type="date"
       label={label}
       variant="outlined"

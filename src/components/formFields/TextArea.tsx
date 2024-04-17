@@ -17,6 +17,7 @@ const TextAreaField = ({ label, defaultValue, onChange, ...props }) => {
 
   return (
     <TextField
+      autoComplete="on"
       multiline
       rows={4}
       label={label}

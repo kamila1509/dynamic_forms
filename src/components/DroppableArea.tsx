@@ -64,6 +64,7 @@ const DroppableArea = ({ formStructure ,onDrop, draggedComponents, onDelete, onS
           <div
             key={index}
             onClick={() => handleContainerClick(index)}
+            className={isClickedElement ? 'droppableEditItem': 'droppableItem'}
             style={{
               position: 'relative',
               padding: '10px',

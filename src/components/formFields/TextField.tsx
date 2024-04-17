@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
+import React, { useState, ChangeEvent } from 'react';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { applyValidation } from '../../utils/validations';
 
-const TextFieldInput = ({ label, defaultValue, onChange, ...props }) => {
-  const [error, setError] = useState(null);
+interface Props extends TextFieldProps {
+  label: string;
+  defaultValue?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
 
-  const handleInputChange = (event) => {
+const TextFieldInput: React.FC<Props> = ({ label, defaultValue, onChange, ...props }) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     const validationError = applyValidation(inputValue, props);
     setError(validationError);
 
-    if (event) {
+    if (onChange) {
       onChange(event);
     }
   };
 
   return (
     <TextField
+      autoComplete='on'
       label={label}
       variant="outlined"
       fullWidth
@@ -30,3 +37,4 @@ const TextFieldInput = ({ label, defaultValue, onChange, ...props }) => {
 };
 
 export default TextFieldInput;
+

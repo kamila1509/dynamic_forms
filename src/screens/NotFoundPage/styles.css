@@ -1,0 +1,30 @@
+/* NotFoundPage.css */
+.not-found-container {
+    display: flex;
+    text-align: center;
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+  
+  .not-found-image {
+    width: 80%; 
+    max-width: 800px;
+    height: auto;
+    margin: 10px; 
+  }
+
+.link {
+    font: inherit;
+    color: white;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+    background-color:#1976d2;
+}

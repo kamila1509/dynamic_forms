@@ -5,6 +5,8 @@ import { Authenticated, useRecordContext, useRedirect } from "react-admin";
 import { saveFormData, updateFormData } from "../utils/database";
 import BasicGrid from "../components/BasicGrid";
 import useUserStore from "../store/userStore";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function LayoutEdit({ ...props }) {
   const updateElement = useFormStore((state) => state.updateSelectedForm);
@@ -13,7 +15,7 @@ export default function LayoutEdit({ ...props }) {
   const [formUpdated, setFormUpdated] = useState(form);
   const [showLink, setshowLink] = useState("");
   const addElement = useFormStore((state) => state.addElementToSelectedForm);
-  console.log("FORM", form);
+  const MySwal = withReactContent(Swal);
   React.useEffect(() => {
     // Suscribirse a los cambios en formStructure
     const unsubscribe = useFormStore.subscribe(
@@ -35,6 +37,18 @@ export default function LayoutEdit({ ...props }) {
   const handleSaveData = (name: any) => {
     const updated = useFormStore.getState().selectedForm.form;
     updateFormData(updated, name, form.id);
+    MySwal.fire({
+      position: "top-end",
+      icon: "success",
+      title: <p>Your work has been saved</p>,
+      showConfirmButton: false,
+      timer: 1500,
+      width:'25em',
+      customClass: {
+        title: 'sweetAlert-text',
+        icon: 'sweetAlert-icon'
+      }
+    })
   };
   const handleSaveChanges = (index: any, additionalParam: any) => {
     updateElement(index, { ...additionalParam });

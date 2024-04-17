@@ -1,30 +1,19 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import { DndProvider, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import AccordionExpandIcon from "../components/Accordion";
-import DraggableComponent from "../components/DraggableComponent";
 import { useState } from "react";
-import DroppableArea from "../components/DroppableArea";
 import useFormStore from "../store/formStore";
-import { Authenticated, useRecordContext } from "react-admin";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
+import { Authenticated } from "react-admin";
 import { saveFormData } from "../utils/database";
 import BasicGrid from "../components/BasicGrid";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function LayoutPrincipal({...props}) {
   const formStructure = useFormStore.getState().formStructure;
   const [formUpdated, setFormUpdated] = useState(formStructure)
   const updateElement = useFormStore((state) => state.updateElement);
   const addElement = useFormStore((state) => state.addElement);
+  const MySwal = withReactContent(Swal);
   React.useEffect(() => {
     // Suscribirse a los cambios en formStructure
     const unsubscribe = useFormStore.subscribe(
@@ -45,6 +34,21 @@ export default function LayoutPrincipal({...props}) {
   }
   const handleSaveData = (name: any) => {
     saveFormData(formStructure, name)
+    MySwal.fire({
+      position: "top-end",
+      icon: "success",
+      title: <p>Your form has been saved</p>,
+      showConfirmButton: false,
+      timer: 1500,
+      width:'25em',
+      customClass: {
+        title: 'sweetAlert-text',
+        icon: 'sweetAlert-icon'
+      }
+    })
+    setTimeout(() => {
+      window.location.href = '/admin/Templates'
+    },1600)
   }
   const handleSaveChanges = (index: any, additionalParam: any) => {
     console.log(index)

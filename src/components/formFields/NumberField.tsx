@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 const NumberFieldInput = ({ label, defaultValue, ...props }) => {
   return (
       <TextField
+        autoComplete="on"
         type="number"
         label={label}
         variant="outlined"

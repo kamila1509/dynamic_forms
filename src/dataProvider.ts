@@ -1,11 +1,9 @@
-import simpleRestProvider from 'ra-data-simple-rest';
-import customDataProvider from './customDataProvider';
 import { fetchUtils } from 'react-admin';
 import useUserStore from './store/userStore';
-const apiUrl = 'http://localhost:4000'; // Reemplaza esto con la URL de tu API
+const apiUrl = 'http://localhost:4000';
 
 
-function httpClient (url, options = {}) {
+function httpClient (url: string, options = {} ) {
     if (!options.headers) {
         options.headers = new Headers({ Accept: 'application/json' });
     }
@@ -19,57 +17,38 @@ function httpClient (url, options = {}) {
 
 
 export const dataProvider =  {
-  getList: async (resource, params) => {
+  getList: async (resource: string, params: { pagination: { page: any; perPage: any; }; sort: { field: any; order: any; }; filter: any; }) => {
       try {
-          const { page, perPage } = params.pagination;
-          const { field, order } = params.sort;
-          const query = {
-              ...fetchUtils.flattenObject(params.filter),
-              _sort: field,
-              _order: order,
-              _start: (page - 1) * perPage,
-              _end: page * perPage,
-          };
           let url = `${apiUrl}/${resource}`;
           const userId = useUserStore.getState()?.user?.uid;
           if(resource === 'responses') {
             url = `${apiUrl}/${resource}/${userId}`;
           }
-  
           const response = await httpClient(url);
-          console.log(response)
-  
           if (response.status !== 200) {
               throw new Error(`Error al obtener la lista de datos: ${response.statusText}`);
           }
           const json = await response.json;
-  
           return { data: json, total: json.length };
       } catch (error) {
           return Promise.reject(error);
       }
   },
-  
-
-  getOne: async (resource, params) => {
-    console.log("params", params)
+  getOne: async (resource: string, params: { id: any; }) => {
     const userId = useUserStore.getState()?.user?.uid;
       let url = `${apiUrl}/${resource}/${params.id}`;
       if(resource === 'responses') {
         url = `${apiUrl}/${resource}/${userId}/${params.id}`;
       }
       const response = await httpClient(url);
-          console.log(response)
-  
           if (response.status !== 200) {
               throw new Error(`Error al obtener la lista de datos: ${response.statusText}`);
           }
           const json = await response.json;
-          console.log(json)
           return { data: json };
   },
 
-  create: async (resource, params) => {
+  create: async (resource: any, params: { data: any; }) => {
       const url = `${apiUrl}/${resource}`;
       return httpClient(url, {
           method: 'POST',
@@ -79,8 +58,7 @@ export const dataProvider =  {
       }));
   },
 
-  update: async (resource, params) => {
-    console.log(params)
+  update: async (resource: any, params: { id: any; data: any; }) => {
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url, {
           method: 'PATCH',
@@ -89,8 +67,7 @@ export const dataProvider =  {
           data: json,
       }));
   },
-
-  delete: async (resource, params) => {
+  delete: async (resource: any, params: { id: any; }) => {
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url, {
           method: 'DELETE',
@@ -98,8 +75,4 @@ export const dataProvider =  {
           data: json,
       }));
   },
-
-  // Otras funciones como getMany, updateMany, deleteMany, etc. si es necesario
 };
-
-//export const dataProvider = simpleRestProvider('http://path.to.my.api/');

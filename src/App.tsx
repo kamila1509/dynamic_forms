@@ -21,6 +21,7 @@ import { ResponseShow } from './screens/ResponseShow';
 
 import useUserStore from "./store/userStore";
 import ThankYouPage from './screens/ThankYou';
+import NotFoundPage from './screens/NotFoundPage/NotFoundPage';
 
 const store = localStorageStore(undefined, 'DashboardForms');
 const App = () => {
@@ -54,8 +55,6 @@ const App = () => {
           {/* Rutas fuera de la administración */}
           <Route path="/form/:userId/:formId" element={<FormView />} />
           <Route path="/success" element={<ThankYouPage/>} />
-          {/* Otras rutas personalizadas si es necesario */}
-          
           {/* Rutas de administración */}
           <Route
             index
@@ -85,8 +84,7 @@ const App = () => {
               </StoreContextProvider>
             }
           />
-          
-          {/* Ruta por defecto, por ejemplo, redirigir a la administración */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
   );
 };

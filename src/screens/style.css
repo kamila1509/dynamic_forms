@@ -1,0 +1,12 @@
+.sweetAlert-text p {
+    font-size: 20px;
+    margin: 0;
+}
+.sweetAlert-icon {
+    font-size: 10px;
+}
+
+.droppableItem:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}

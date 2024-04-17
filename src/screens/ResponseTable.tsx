@@ -42,7 +42,11 @@ const ResponsesTable = () => {
 
   const exporter = () => {
     jsonExport(sortedResponses, (err, csv) => {
-      downloadCSV(csv, 'Responses'); // download as 'Sorted_Responses.csv` file
+    try {
+      downloadCSV(csv, `Formulario ${record.name}`);
+    } catch (error) {
+       console.error(err)
+    }
     });
   };
 

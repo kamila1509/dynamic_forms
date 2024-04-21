@@ -29,7 +29,9 @@ export const applyValidation = (value, validationOptions) => {
           );
           break;
         case "regex":
-          error = validatorMap.regex(value, validationOptions.regex);
+          if(value !== "") {
+            error = validatorMap.regex(value, validationOptions.regex);
+          }
           break;
         default:
           error = validatorMap[option] ? validatorMap[option](value) : null;

@@ -1,0 +1,19 @@
+.container {       
+     max-width: 50%;
+        padding-bottom: 24px;
+        border-radius: 8px;
+        height: 100vh;
+        box-shadow: 4px 8px 40px 8px rgba(88, 146, 255, 0.2);
+
+}
+.submit {
+    width: 200px;
+}
+@media(max-width: 560px) {
+    .container { 
+        max-width: 90%;
+    } 
+    .submit {
+        width: 100%;
+    }
+}

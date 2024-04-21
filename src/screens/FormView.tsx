@@ -1,6 +1,7 @@
 // FormView.js
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import './formView.css';
 import { componentMap, formatObject } from "../utils/global";
 import {
   Box,
@@ -12,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import background from '../assets/background.jpg'
 import { getFormById, saveResponseForm } from "../utils/database";
 export const DisplayFormikState = (props) => (
   <div style={{ margin: "1rem 0" }}>
@@ -87,12 +87,7 @@ const FormView = () => {
   };
 
   return (
-    <Container style={{ 
-      maxWidth: '90%',
-      paddingBottom: 24,
-      borderRadius: 8,
-      height: '100vh',
-      boxShadow: '4px 8px 40px 8px rgba(88, 146, 255, 0.2)'}}>
+    <Container className="container">
       {(Object.keys(initialValues).length && form && formFields) ? (
         <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px"  }}>
           <Grid item xs={2}>
@@ -135,11 +130,11 @@ const FormView = () => {
                   </Grid>
 
                   <Button
+                  className="submit"
                     variant="contained"
                     type="submit"
                     color="primary"
                     disabled={isSubmitting}
-                    fullWidth
                   >
                     {isSubmitting ? (
                       <CircularProgress size={25} thickness={2} />

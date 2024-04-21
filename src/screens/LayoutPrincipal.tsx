@@ -58,7 +58,6 @@ export default function LayoutPrincipal({...props}) {
   return (
     <Authenticated>
        <BasicGrid
-        showLink
         formStructure={formUpdated}
         selectedForm={null}
         addElement={addElement}

@@ -1,9 +1,9 @@
 {
-    "short_name": "curquizo",
+    "short_name": "Dashboard Forms",
     "name": "{{name}}",
     "icons": [
         {
-            "src": "favicon.ico",
+            "src":"forms.ico",
             "sizes": "64x64 32x32 24x24 16x16",
             "type": "image/x-icon"
         }

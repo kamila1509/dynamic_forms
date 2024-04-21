@@ -4,12 +4,14 @@ import {
   TextField,
   EmailField,
   SelectField,
+  Authenticated,
 } from "react-admin";
 import useUserStore from "../store/userStore";
 
 export const ResponseList = () => {
   const userId = useUserStore.getState().user.uid;
   return (
+    <Authenticated>
     <List resource={`responses`}>
       <Datagrid
         sx={{
@@ -26,5 +28,6 @@ export const ResponseList = () => {
         <TextField source="id" />
       </Datagrid>
     </List>
+    </Authenticated>
   );
 };

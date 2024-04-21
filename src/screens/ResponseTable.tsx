@@ -39,9 +39,16 @@ const ResponsesTable = () => {
     }
     return 0;
   }) : []
+  function reorderArrayOfObjects(array) {
+    return array.map(obj => {
+        const { id, createdDate, ...rest } = obj;
+        return { ...rest, id, createdDate };
+    });
+}
 
   const exporter = () => {
-    jsonExport(sortedResponses, (err, csv) => {
+
+    jsonExport(reorderArrayOfObjects(sortedResponses), (err, csv) => {
     try {
       downloadCSV(csv, `Formulario ${record.name}`);
     } catch (error) {
@@ -74,6 +81,7 @@ const ResponsesTable = () => {
                 </Box>
               </TableCell>
             ))}
+            <TableCell>Fecha Recibida</TableCell>
           </TableRow>
         </TableHead>
         {( responses && sortedResponses.length > 0 )? (
@@ -83,6 +91,7 @@ const ResponsesTable = () => {
                 {formData.map((field, index) => (
                   <TableCell>{response[field.props.formValue]}</TableCell>
                 ))}
+                 <TableCell>{response.createdDate}</TableCell>
               </TableRow>
             ))}
           </TableBody>

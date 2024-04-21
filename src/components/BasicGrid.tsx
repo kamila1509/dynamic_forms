@@ -56,7 +56,9 @@ const BasicGrid = ({
     setDraggedComponents(updatedComponents);
     console.log(formStructure)
     const updateElements = formStructure.splice(index, 1);
-    updateElementsStructure(updateElements);
+    if(updatedComponents.length !== formStructure.length) {
+      updateElementsStructure(updateElements);
+    }
   };
 
   const handleDrop = (item) => {

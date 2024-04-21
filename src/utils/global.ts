@@ -19,7 +19,7 @@ export const componentMap = {
 };
 
 export const validationMap = {
-  TEXT_FIELD: ["required", "length", "letters", "email"],
+  TEXT_FIELD: ["required", "length", "letters", "email", "regex"],
   SELECT: ["required"],
   DATE_FIELD: ["required", "regex"], // Ejemplo de validación de formato de fecha (YYYY-MM-DD)
   RADIO_FIELD: ["required"],

@@ -23,7 +23,7 @@ export const ResponseShow = () => {
   return (
     <Show resource="responses" id={id}>
       <SimpleShowLayout>
-        <TextField source="name" />
+      <TextField style={{fontSize: 30}} source="name" />
         <FormDataDisplay />
         <ResponsesTable />
       </SimpleShowLayout>

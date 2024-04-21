@@ -44,45 +44,21 @@ export const authProvider: AuthProvider = {
   checkError: () => Promise.resolve(),
   checkAuth: () => {
     return new Promise((resolve, reject) => {
-      const auth = getAuth();
-      
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (user) {
-          const { stsTokenManager } = user;
-          const currentTime = Date.now();
-          if (stsTokenManager && stsTokenManager.accessToken && stsTokenManager.expirationTime) {
-            const expirationTime = stsTokenManager.expirationTime;
-            if (currentTime >= expirationTime) {
-              // El token de acceso ha expirado, desloguear al usuario
-              auth.signOut().then(() => {
-                useUserStore.setState({ user: null });
-                reject('Token de acceso expirado, el usuario ha sido deslogueado');
-              }).catch((error) => {
-                console.error('Error al desloguear al usuario:', error);
-                reject('Error al desloguear al usuario');
-              });
+        const auth = getAuth();
+
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                resolve(user);
             } else {
-              // El token de acceso aún es válido, resolver la promesa
-              console.log('Usuario autenticado:', user);
-              resolve();
+                reject({ code: "auth/state-change-error", message: "User is not authenticated" });
             }
-          } else {
-            // No se pudo obtener el tiempo de expiración del token, resolver la promesa
-            console.warn('No se pudo obtener el tiempo de expiración del token de acceso');
-            resolve();
-          }
-        } else {
-          // El usuario no está autenticado, resolver la promesa
-          useUserStore.setState({ user: null });
-          reject('El usuario no está autenticado');
-        }
-        unsubscribe();
-      }, (error) => {
-        console.error('Error al verificar autenticación:', error);
-        reject('Error al verificar autenticación');
-      });
+            unsubscribe();
+        }, (error) => {
+            console.error('Error al verificar autenticación:', error);
+            reject({ code: "auth/state-change-error", message: error.message });
+        });
     });
-  },
+},
   getPermissions: () => {
     return Promise.resolve(undefined);
   },

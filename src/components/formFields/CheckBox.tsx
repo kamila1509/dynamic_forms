@@ -37,6 +37,7 @@ const CheckBoxInputDraggable = ({ label, options, defaultValue, onChange, ...pro
         {options.map((option, index) => (
           <FormControlLabel
             key={index}
+            {...props}
             control={
               <Checkbox
                 checked={checkedValues.includes(option.value)}

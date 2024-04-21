@@ -51,8 +51,6 @@ export default function LayoutPrincipal({...props}) {
     },1600)
   }
   const handleSaveChanges = (index: any, additionalParam: any) => {
-    console.log(index)
-    console.log(additionalParam)
     updateElement(index, { ...additionalParam });
 
   }
@@ -60,6 +58,7 @@ export default function LayoutPrincipal({...props}) {
   return (
     <Authenticated>
        <BasicGrid
+        showLink
         formStructure={formUpdated}
         selectedForm={null}
         addElement={addElement}

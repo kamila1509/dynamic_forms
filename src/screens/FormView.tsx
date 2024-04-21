@@ -69,9 +69,14 @@ const FormView = () => {
             {...props}
             id={Object.keys(initialValues)[index]}
             name={Object.keys(initialValues)[index]}
-            style={{marginBottom: 20, backgroundColor: '#fefcf9'}}
+            style={{marginBottom: 20}}
             onChange={(event) => {
+            if(event.length) {
+              handleChange({target: {value: event[0], name: Object.keys(initialValues)[index] }});
+            } else {
               handleChange(event);
+            }
+              
             }}
             value={values[index]}
           />
@@ -83,15 +88,15 @@ const FormView = () => {
 
   return (
     <Container style={{ 
-      maxWidth: 500,
+      maxWidth: '90%',
       paddingBottom: 24,
       borderRadius: 8,
       height: '100vh',
       boxShadow: '4px 8px 40px 8px rgba(88, 146, 255, 0.2)'}}>
       {(Object.keys(initialValues).length && form && formFields) ? (
-        <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px" }}>
+        <Box sx={{ flexGrow: 1, height: "100%", paddingTop: "20px"  }}>
           <Grid item xs={2}>
-            <Typography variant="h3" style={{textTransform: 'capitalize', paddingBottom: 20}}>{form.name}</Typography>
+            <Typography variant="h1" style={{textTransform: 'capitalize', paddingBottom: 20, fontSize: 50, fontFamily: "Ubuntu"}}>{form.name}</Typography>
           </Grid>
           <Formik
             initialValues={{ ...initialValues }}

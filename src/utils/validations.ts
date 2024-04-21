@@ -15,16 +15,24 @@ export const applyValidation = (value, validationOptions) => {
     if (validationOptions[option]) {
       switch (option) {
         case "minLength":
-          error = validatorMap.length(value, validationOptions.minLength, validationOptions.maxLength);
+          error = validatorMap.length(
+            value,
+            validationOptions.minLength,
+            validationOptions.maxLength
+          );
           break;
         case "maxLength":
-          error = validatorMap.length(value, validationOptions.minLength, validationOptions.maxLength);
+          error = validatorMap.length(
+            value,
+            validationOptions.minLength,
+            validationOptions.maxLength
+          );
           break;
         case "regex":
           error = validatorMap.regex(value, validationOptions.regex);
           break;
         default:
-          error = validatorMap[option]? validatorMap[option](value): null;
+          error = validatorMap[option] ? validatorMap[option](value) : null;
       }
 
       if (error) {
@@ -37,7 +45,11 @@ export const applyValidation = (value, validationOptions) => {
 };
 
 export const validateRequired = (value: string) => {
-  return value.trim() === "" ? "Este campo es obligatorio" : null;
+  if (typeof value == "object") {
+    return value[0] == "" ? "Este campo es obligatorio" : null;
+  } else {
+    return value.trim() === "" ? "Este campo es obligatorio" : null;
+  }
 };
 
 export const validateLength = (value, min, max) => {
